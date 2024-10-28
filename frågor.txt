@@ -1,0 +1,51 @@
+Vad är pull repektive push?
+- git pull: Används för att hämta och slå samman ändringar från en fjärrserver (remote repository) till din lokala kopia. När 
+du kör git pull hämtas ändringar från fjärrservern och försöker automatiskt slå ihop dem med din nuvarande gren.
+Exempel: Om du arbetar i grenen main och kör git pull, hämtar du de senaste uppdateringarna från fjärr-repositoryn och 
+slår samman dem i din lokala main-gren.
+ git push: Används för att ladda upp dina lokala ändringar till en fjärrserver. Det kräver att du har skrivrättigheter 
+till repositoryn och att det inte finns några konflikter mellan din lokala version och fjärrversionen.
+Exempel: Efter att du gjort lokala ändringar och skapat en commit, kör du git push för att skicka dina ändringar till fjärrserverns repository.
+
+När använder man log respektive status?
+-git log: Används för att visa historiken av commits i den aktuella grenen. Det ger detaljerad information om varje commit, inklusive commit-ID, 
+författare, datum och meddelande.
+Exempel: git log: Detta kommando visar alla commits i den aktuella grenen.
+git status: Används för att visa det aktuella läget för repositoryn, t.ex. vilka filer som är staged (redo för commit), 
+unstaged (ändrade men ej committade), eller untracked (nya filer som inte är tillagda i Git).
+Exempel: git status: Detta kommando visar statusen för alla ändringar i den aktuella arbetskatalogen. 
+
+Vad är en Git branch och varför är de viktiga?
+- En Git-branch är en separat version av din kodbas där du kan göra ändringar utan att påverka huvudkoden. Branches är viktiga för att:
+    1.Arbeta parallellt: Flera utvecklare kan arbeta med olika funktioner utan att störa varandras arbete.
+    2.Säkra huvudgrenen: Ny utveckling och testning sker i separata grenar, vilket håller huvudgrenen (main eller master) stabil.
+    3.Underlätta testning och granskning: Branches används ofta för att testa kod eller granska den innan den slås samman med huvudkoden.
+Exempel på branch-kommandon:
+git branch feature-login       # Skapa en ny gren
+git checkout feature-login     # Byt till grenen 'feature-login'
+git checkout -b hotfix-issue   # Skapa och byt till en ny gren
+
+Det finns flera sätt att rulla tillbaka koden till ett tidigare tillstånd. Förklara skillnaden och 
+motivera när man skulle använda den ena eller andra metoden. Ge exempel på 
+de kommandon du använder för att göra detta och vissa att det fungerar, vilken output du fick från git-kommandona.
+- Git har flera kommandon för att rulla tillbaka till tidigare commits. Här är några vanliga alternativ och deras användningsområden:
+A. git revert: Skapar en ny commit som "reverserar" ändringarna i en specifik commit. Det påverkar inte historiken, utan 
+lägger till en ny commit som gör att det ser ut som att ändringarna har ångrats.
+När man använder det: Bra för att återgå till tidigare kod utan att ändra på historiken, vilket är fördelaktigt i team-samarbeten.
+    Exempel: git revert <commit-id>: Output: Git skapar en ny commit med ett meddelande om att ändringarna har återställts.
+
+B. git reset: Flyttar tillbaka grenen till en specifik commit och ändrar historiken. Det finns tre huvudsakliga typer:
+        --soft: Tar bort commits men lämnar ändringarna staged.
+        --mixed: Tar bort commits och lämnar ändringarna som unstaged.
+        --hard: Tar bort commits och alla ändringar; arbetskatalogen blir helt som den var vid den valda commiten.
+   När man använder det: Bra för att justera lokala commits eller ta bort ändringar som inte ska delas. --hard bör 
+   användas med försiktighet eftersom det rensar alla ändringar.
+    Exempel: git reset --hard <commit-id>: Output: Git återställer både commit-historiken och arbetskatalogen till den angivna commiten.
+
+C. git checkout: Används för att byta till en annan gren eller commit. Detta påverkar inte historiken och lämnar inga permanenta spår i repositoryn.
+    När man använder det: Användbart för att tillfälligt kolla hur projektet såg ut vid en viss commit utan att ändra något permanent.
+    Exempel: git checkout <commit-id>: Output: Git visar innehållet från den angivna commiten i arbetskatalogen.
+
+D. git restore: Återställer specifika filer till deras tidigare tillstånd utan att påverka hela arbetskatalogen.
+    När man använder det: Om du bara vill rulla tillbaka enskilda filer utan att återställa hela commiten.
+    Exempel: git restore <file>: Output: Filerna återställs till deras tidigare tillstånd.
